@@ -1,36 +1,48 @@
-let input;
-let submitButton;
-let greeting;
-let listInputs = [];
+let emojis = [];
+    let e1, e2, e3, e4;
+    let slider;
+    let checkbox;
 
-function setup() {
-  createCanvas(windowWidth, windowHeight);
-  // 输入框
-  input = createInput();
-  input.position(100, 100);
-  submitButton = createButton('submit');
-  // 将提交按钮放在输入框旁边
-  submitButton.position(input.x + input.width, input.y);
-  submitButton.mousePressed(submitInput);
-  // 创建一个二级标题
-  greeting = createElement('h2', 'Please write your question.');
-  greeting.style('color', 'black');
-  // 将标题放在输入框上方
-  greeting.position(input.x, input.y - 50);
-}
+    function preload() {
+      e1 = loadImage('gif/m1.GIF');
+      e2 = loadImage('gif/m2.gif');
+      e3 = loadImage('gif/m3.gif');
+      e4 = loadImage('gif/m4.gif');
+    }
 
-function submitInput() {
-  let userInput = input.value();
-  input.value(''); // 将输入值重置为空字符串
-  listInputs.push(userInput);
-  if (listInputs.length > 10) {
-    listInputs.shift();
-  }
-}
+    function setup() {
+      createCanvas(windowWidth, windowHeight);
+      background(225);
+      emojis.push(e1);
+      emojis.push(e2);
+      emojis.push(e3);
+      emojis.push(e4);
+      let button = createButton('click here');
+      button.position(10, 10);
+      button.mousePressed(() => {
+        let r = random(emojis);
+        r.x = random(width);
+        r.y = random(height);
+        image(r, r.x, r.y);
+      });
+      slider = createSlider(0, 255, 255);
+      slider.position(100, 350);
+      slider.size(200);
+      checkbox = createCheckbox();
+      checkbox.position(200, 150);
+    }
 
-function draw() {
-  background(220);
-  for (let x = 0; x < listInputs.length; x++) {
-    text(listInputs[x], 20, 180 + x * 20);
-  }
-}
+    function draw() {
+      if (checkbox.checked()) {
+        background(0);
+      } else {
+        background(225);
+      }
+      let alphaValue = slider.value();
+      for (let i = 0; i < emojis.length; i++) {
+        if (emojis[i].x!== undefined && emojis[i].y!== undefined) {
+          tint(255, alphaValue);
+          image(emojis[i], emojis[i].x, emojis[i].y);
+        }
+      }
+    }
