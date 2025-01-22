@@ -1,6 +1,7 @@
 let emojis = [];
     let e1, e2, e3, e4;
     let slider;
+    let checkbox;
 
     function preload() {
       e1 = loadImage('gif/m1.GIF');
@@ -27,10 +28,16 @@ let emojis = [];
       slider = createSlider(0, 255, 255);
       slider.position(100, 350);
       slider.size(200);
+      checkbox = createCheckbox();
+      checkbox.position(200, 150);
     }
 
     function draw() {
-      background(225);
+      if (checkbox.checked()) {
+        background(0);
+      } else {
+        background(225);
+      }
       let alphaValue = slider.value();
       for (let i = 0; i < emojis.length; i++) {
         if (emojis[i].x!== undefined && emojis[i].y!== undefined) {
