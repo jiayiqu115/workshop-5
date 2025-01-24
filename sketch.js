@@ -1,48 +1,48 @@
-let emojis = [];
-    let e1, e2, e3, e4;
-    let slider;
-    let checkbox;
+let emojis = ['🍎', '🍌', '🍇', '🍉']; 
+let positions = []; 
+let slider;
+let checkbox;
+let button;
 
-    function preload() {
-      e1 = loadImage('gif/m1.GIF');
-      e2 = loadImage('gif/m2.gif');
-      e3 = loadImage('gif/m3.gif');
-      e4 = loadImage('gif/m4.gif');
-    }
+function setup() {
+  createCanvas(windowWidth, windowHeight);
 
-    function setup() {
-      createCanvas(windowWidth, windowHeight);
-      background(225);
-      emojis.push(e1);
-      emojis.push(e2);
-      emojis.push(e3);
-      emojis.push(e4);
-      let button = createButton('click here');
-      button.position(10, 10);
-      button.mousePressed(() => {
-        let r = random(emojis);
-        r.x = random(width);
-        r.y = random(height);
-        image(r, r.x, r.y);
-      });
-      slider = createSlider(0, 255, 255);
-      slider.position(100, 350);
-      slider.size(200);
-      checkbox = createCheckbox();
-      checkbox.position(200, 150);
-    }
+  button = createButton('Generate Emoji');
+  button.position(20, 20);
+  button.style('padding', '10px 20px');
+  button.style('font-size', '16px');
+  button.style('background-color', '#007BFF');
+  button.style('color', '#fff');
+  button.style('border', 'none');
+  button.style('border-radius', '5px');
+  button.mousePressed(() => {
+    let emoji = random(emojis);
+    let x = random(50, width - 50); 
+    let y = random(50, height - 50);
+    positions.push({ emoji, x, y }); 
+  });
 
-    function draw() {
-      if (checkbox.checked()) {
-        background(0);
-      } else {
-        background(225);
-      }
-      let alphaValue = slider.value();
-      for (let i = 0; i < emojis.length; i++) {
-        if (emojis[i].x!== undefined && emojis[i].y!== undefined) {
-          tint(255, alphaValue);
-          image(emojis[i], emojis[i].x, emojis[i].y);
-        }
-      }
-    }
+  slider = createSlider(50, 255, 255);
+  slider.position(20, 70);
+  slider.style('width', '200px');
+
+  checkbox = createCheckbox('Dark Mode', false);
+  checkbox.position(20, 110);
+  checkbox.style('font-size', '16px');
+}
+
+function draw() {
+  if (checkbox.checked()) {
+    background(30);
+  } else {
+    background(225);
+  }
+  let alphaValue = slider.value();
+  textSize(48); // 设置 Emoji 字号
+  textAlign(CENTER, CENTER);
+  for (let i = 0; i < positions.length; i++) {
+    let { emoji, x, y } = positions[i];
+    fill(255, alphaValue);
+    text(emoji, x, y); // 绘制 Emoji
+  }
+}
